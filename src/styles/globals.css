@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: hsl(128 30% 12%);
+  background: hsl(60 14% 95%);
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 10% -6%, hsl(160 40% 90% / .72), transparent 30rem),
+    radial-gradient(circle at 96% 10%, hsl(100 12% 84% / .38), transparent 26rem),
+    linear-gradient(180deg, hsl(60 14% 98%), hsl(60 14% 95%) 46%, hsl(100 10% 91% / .52));
+}
+
+button, input, select, textarea { font: inherit; }
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-forest-800 focus:ring-offset-2 focus:ring-offset-cream;
+}
+
+.surface-grid {
+  background-image:
+    linear-gradient(hsl(126 34% 21% / .035) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(126 34% 21% / .035) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
