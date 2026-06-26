@@ -69,8 +69,8 @@ export function LoginPage() {
           </form>
         </div>
 
-        <aside className="relative hidden min-h-0 overflow-hidden rounded-[1.55rem] lg:block lg:h-full">
-          <img src="/onboarding3.jpg" alt="PlantCare Hub onboarding visual" className="h-full w-full object-cover" />
+        <aside className="relative hidden min-h-0 overflow-hidden rounded-[1.55rem] bg-gradient-to-br from-sage-100 via-mint/35 to-cream lg:block lg:h-full">
+          <img src="/onboarding3.png" alt="PlantCare Hub onboarding visual" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-br from-forest-950/18 via-transparent to-forest-900/34" />
           <div className="absolute inset-x-5 bottom-5 rounded-[1.35rem] border border-white/40 bg-white/68 p-4 shadow-elevated backdrop-blur-xl">
             <div className="flex items-center gap-3">
