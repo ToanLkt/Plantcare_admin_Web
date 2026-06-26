@@ -12,7 +12,7 @@ export function DataTable<T>({ columns, rows, loading, emptyTitle, emptyDescript
   if (loading) return <TableSkeleton columns={columns.length} />;
   if (!rows?.length) return <EmptyState title={emptyTitle} description={emptyDescription || "Adjust filters or refresh the page."} action={emptyAction} />;
   return (
-    <div className="overflow-x-auto rounded-[1.05rem]">
+    <div className="w-full max-w-full overflow-x-auto rounded-[1.05rem]">
       <table className="w-full min-w-[760px] border-separate border-spacing-0 text-left text-sm">
         <thead className="bg-sage-100/70">
           <tr className="text-[11px] font-semibold uppercase tracking-[0.12em] text-forest-900/48">
@@ -33,11 +33,11 @@ export function DataTable<T>({ columns, rows, loading, emptyTitle, emptyDescript
 
 function TableSkeleton({ columns }: { columns: number }) {
   return (
-    <div className="overflow-hidden rounded-[1.05rem] border border-sage-200/70 bg-white">
-      <div className="grid gap-3 bg-sage-100/70 p-4" style={{ gridTemplateColumns: `repeat(${Math.max(columns, 1)}, minmax(0, 1fr))` }}>
+    <div className="w-full max-w-full overflow-x-auto rounded-[1.05rem] border border-sage-200/70 bg-white">
+      <div className="grid min-w-[760px] gap-3 bg-sage-100/70 p-4" style={{ gridTemplateColumns: `repeat(${Math.max(columns, 1)}, minmax(0, 1fr))` }}>
         {Array.from({ length: columns }).map((_, index) => <div key={index} className="h-3 animate-pulse rounded-full bg-sage-200/80" />)}
       </div>
-      <div className="divide-y divide-sage-200/70 p-2">
+      <div className="min-w-[760px] divide-y divide-sage-200/70 p-2">
         {Array.from({ length: 7 }).map((_, row) => (
           <div key={row} className="grid gap-3 px-3 py-4" style={{ gridTemplateColumns: `repeat(${Math.max(columns, 1)}, minmax(0, 1fr))` }}>
             {Array.from({ length: columns }).map((_, col) => <div key={col} className="h-4 animate-pulse rounded-full bg-sage-100" />)}

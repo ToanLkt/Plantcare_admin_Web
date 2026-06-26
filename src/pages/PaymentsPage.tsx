@@ -26,8 +26,8 @@ export function PaymentsPage() {
   const total = query.data?.pagination?.totalItems;
   const visible = query.data?.data?.length ?? 0;
   return (
-    <div className="space-y-6">
-      <section className="overflow-hidden rounded-[1.65rem] border border-white/70 bg-white/66 p-1.5 shadow-card ring-1 ring-forest-900/[0.03]">
+    <div className="min-w-0 space-y-6">
+      <section className="min-w-0 overflow-hidden rounded-[1.65rem] border border-white/70 bg-white/66 p-1.5 shadow-card ring-1 ring-forest-900/[0.03]">
         <div className="rounded-[1.25rem] bg-gradient-to-br from-white via-white to-mint/45 p-5">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
@@ -54,7 +54,7 @@ export function PaymentsPage() {
         <FilterSelect label="Plan" value={planCode} onChange={setPlanCode} options={["Free", "Plus", "Pro", "Garden"]} />
         <FilterSelect label="Page size" value={pageSize} onChange={(value) => { setPageSize(value || "15"); setPage(1); }} options={["10", "15", "25", "50"]} />
       </SearchFilters>
-      {query.isError ? <ErrorState message="Payments could not be loaded." onRetry={() => query.refetch()} /> : <Card className="overflow-hidden p-1.5"><div className="rounded-[1.05rem] bg-white"><DataTable columns={paymentColumns} rows={query.data?.data} loading={query.isLoading} emptyTitle="No payments found" emptyDescription="No transactions match the current search and filters." emptyAction={<Button variant="secondary" onClick={() => { setSearch(""); setStatus(""); setProvider(""); setPlanCode(""); setPage(1); }}>Clear filters</Button>} /><Pagination pagination={query.data?.pagination} page={page} setPage={setPage} /></div></Card>}
+      {query.isError ? <ErrorState message="Payments could not be loaded." onRetry={() => query.refetch()} /> : <Card className="min-w-0 overflow-hidden p-1.5"><div className="min-w-0 rounded-[1.05rem] bg-white"><DataTable columns={paymentColumns} rows={query.data?.data} loading={query.isLoading} emptyTitle="No payments found" emptyDescription="No transactions match the current search and filters." emptyAction={<Button variant="secondary" onClick={() => { setSearch(""); setStatus(""); setProvider(""); setPlanCode(""); setPage(1); }}>Clear filters</Button>} /><Pagination pagination={query.data?.pagination} page={page} setPage={setPage} /></div></Card>}
     </div>
   );
 }

@@ -13,6 +13,8 @@ import { EmptyState, ErrorState, LoadingRows } from "../components/ui/State";
 import type { SubscriptionPlan } from "../types/admin";
 import type { LucideIcon } from "lucide-react";
 
+type AiQuotaPeriodOption = "Monthly" | "Daily" | "None";
+
 export function SubscriptionPlansPage() {
   const [editing, setEditing] = useState<SubscriptionPlan | null>(null);
   const query = useQuery({ queryKey: queryKeys.plans, queryFn: getAdminSubscriptionPlans });
@@ -122,7 +124,7 @@ function PlanEditor({ plan, saving, onClose, onSubmit }: { plan: SubscriptionPla
     billingCycle: plan.billingCycle || "",
     maxPlants: String(plan.maxPlants ?? ""),
     aiQuotaLimit: String(plan.aiQuotaLimit ?? ""),
-    aiQuotaPeriod: plan.aiQuotaPeriod || "",
+    aiQuotaPeriod: normalizeAiQuotaPeriod(plan.aiQuotaPeriod),
     showAds: String(Boolean(plan.showAds)),
     isActive: String(plan.isActive !== false)
   });
@@ -158,7 +160,7 @@ function PlanEditor({ plan, saving, onClose, onSubmit }: { plan: SubscriptionPla
       billingCycle: form.billingCycle,
       maxPlants,
       aiQuotaLimit,
-      aiQuotaPeriod: form.aiQuotaPeriod,
+      aiQuotaPeriod: normalizeAiQuotaPeriod(form.aiQuotaPeriod),
       showAds: form.showAds === "true",
       isActive: form.isActive === "true"
     });
@@ -185,7 +187,13 @@ function PlanEditor({ plan, saving, onClose, onSubmit }: { plan: SubscriptionPla
             <Field label="Billing cycle"><Input value={form.billingCycle} onChange={(e) => update("billingCycle", e.target.value)} /></Field>
             <Field label="Max plants"><Input type="number" min="0" value={form.maxPlants} onChange={(e) => update("maxPlants", e.target.value)} /></Field>
             <Field label="AI quota limit"><Input type="number" min="0" value={form.aiQuotaLimit} onChange={(e) => update("aiQuotaLimit", e.target.value)} /></Field>
-            <Field label="AI quota period"><Input value={form.aiQuotaPeriod} onChange={(e) => update("aiQuotaPeriod", e.target.value)} /></Field>
+            <Field label="AI quota period">
+              <Select className="h-11 rounded-2xl bg-white shadow-card" value={form.aiQuotaPeriod} onChange={(e) => update("aiQuotaPeriod", normalizeAiQuotaPeriod(e.target.value))}>
+                <option value="Monthly">Monthly</option>
+                <option value="Daily">Daily</option>
+                <option value="None">None</option>
+              </Select>
+            </Field>
             <Field label="Show ads"><Select value={form.showAds} onChange={(e) => update("showAds", e.target.value)}><option value="true">Show ads</option><option value="false">Hide ads</option></Select></Field>
             <Field label="Active state"><Select value={form.isActive} onChange={(e) => update("isActive", e.target.value)}><option value="true">Active</option><option value="false">Inactive</option></Select></Field>
             <label className="md:col-span-2">
@@ -214,4 +222,11 @@ function Info({ label, value, icon: Icon }: { label: string; value: string; icon
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return <label><span className="mb-2 block text-xs font-semibold text-forest-900/55">{label}</span>{children}</label>;
+}
+
+function normalizeAiQuotaPeriod(value: unknown): AiQuotaPeriodOption {
+  const normalized = String(value ?? "").trim().toLowerCase();
+  if (normalized === "monthly") return "Monthly";
+  if (normalized === "daily") return "Daily";
+  return "None";
 }

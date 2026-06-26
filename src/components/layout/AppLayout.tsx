@@ -1,7 +1,8 @@
-import { Bell, BriefcaseBusiness, ChevronDown, CreditCard, LayoutDashboard, Leaf, Search, Settings, Sparkles, Users, Workflow } from "lucide-react";
+import { Bell, BriefcaseBusiness, ChevronDown, CreditCard, LayoutDashboard, Leaf, LogOut, Search, Sparkles, Users, Workflow } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "../../lib/utils";
 import { useAuth } from "../../features/auth/AuthProvider";
+import { Button } from "../ui/Button";
 
 const navGroups = [
   {
@@ -16,20 +17,16 @@ const navGroups = [
       { to: "/subscription-plans", label: "Plans", icon: BriefcaseBusiness },
       { to: "/background-jobs/care-task-generation", label: "Care jobs", icon: Workflow }
     ]
-  },
-  {
-    label: "Workspace",
-    items: [{ to: "/settings", label: "Settings", icon: Settings }]
   }
 ];
 
 export function AppLayout() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const initials = (user?.fullName || user?.email || "A").slice(0, 1).toUpperCase();
   return (
-    <div className="surface-grid min-h-[100dvh] lg:grid lg:grid-cols-[18rem_minmax(0,1fr)]">
-      <aside className="border-r border-sage-200/80 bg-cream/92 p-4 lg:sticky lg:top-0 lg:h-[100dvh] lg:w-[18rem]">
-        <div className="flex h-full flex-col">
+    <div className="surface-grid h-[100dvh] overflow-hidden lg:grid lg:grid-cols-[minmax(18rem,18rem)_minmax(0,1fr)]">
+      <aside className="z-30 h-full overflow-hidden border-r border-sage-200/80 bg-cream/92 p-4 lg:sticky lg:top-0 lg:w-[18rem] lg:self-start">
+        <div className="flex h-full min-h-0 flex-col">
           <div className="rounded-[1.65rem] bg-white/88 p-2 shadow-elevated ring-1 ring-forest-900/[0.06]">
             <div className="relative overflow-hidden rounded-[1.25rem] bg-gradient-to-br from-forest-950 via-forest-900 to-forest-800 p-4 text-white">
               <div className="absolute -right-8 -top-10 h-28 w-28 rounded-full bg-mint/20 blur-2xl" />
@@ -51,7 +48,7 @@ export function AppLayout() {
               </div>
             </div>
           </div>
-          <nav className="mt-7 space-y-6">
+          <nav className="mt-7 min-h-0 flex-1 space-y-6 overflow-y-auto pr-1">
             {navGroups.map((group) => (
               <div key={group.label}>
                 <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-forest-900/40">{group.label}</p>
@@ -84,15 +81,21 @@ export function AppLayout() {
               </div>
             ))}
           </nav>
-          <div className="mt-auto rounded-[1.35rem] border border-sage-200/70 bg-white/74 p-4 shadow-card">
-            <p className="text-xs font-semibold text-forest-950">Production API</p>
-            <p className="mt-1 truncate text-[11px] text-forest-900/55">api.plantcarehub.id.vn</p>
-          </div>
+         <div className="mt-4 border-t border-sage-200/70 pt-4">
+  <Button
+    variant="ghost"
+    className="h-11 w-full justify-start rounded-2xl border border-red-300 bg-white/70 px-3 text-red-600 shadow-none hover:border-red-400 hover:bg-red-50 hover:text-red-700"
+    onClick={logout}
+  >
+    <LogOut className="h-4 w-4" strokeWidth={1.8} />
+    Logout
+  </Button>
+</div>
         </div>
       </aside>
-      <div className="min-w-0">
-        <header className="sticky top-0 z-20 border-b border-sage-200/70 bg-cream/82 px-5 py-4 backdrop-blur-xl">
-          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between gap-3">
+      <div className="flex h-full min-w-0 flex-col overflow-hidden">
+        <header className="sticky top-0 z-20 shrink-0 border-b border-sage-200/70 bg-cream/82 px-5 py-4 backdrop-blur-xl">
+          <div className="mx-auto flex w-full max-w-[1440px] min-w-0 items-center justify-between gap-3">
             <div className="relative hidden min-w-0 max-w-2xl flex-1 md:block">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-forest-900/42" strokeWidth={1.8} />
               <input className="focus-ring h-11 w-full rounded-2xl border border-white/85 bg-white/88 pl-11 pr-28 text-sm text-forest-950 shadow-card ring-1 ring-forest-900/[0.03] placeholder:text-forest-900/38" placeholder="Search users, payments, plans" />
@@ -116,8 +119,10 @@ export function AppLayout() {
             </div>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-[1440px] p-5 lg:p-8 xl:p-10">
-          <Outlet />
+        <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="mx-auto w-full max-w-[1440px] min-w-0 p-5 lg:p-8 xl:p-10">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
